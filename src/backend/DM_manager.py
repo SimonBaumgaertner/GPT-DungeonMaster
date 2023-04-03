@@ -6,7 +6,7 @@ class DMManger:
 
     def createPrompt(self, player_input):
         self.conversation.append("Player: " + player_input)
-        prompt = "Imagine you are a D&D Dungeon Master (DM) and this is the conversation you had with a player (Player): \n"
+        prompt = "Imagine you are a Dungeon Master (DM) and this is the conversation you had with a player (Player): \n"
         for element in self.conversation:
             prompt = prompt + element + "\n"
         if len(self.conversation) == 2:

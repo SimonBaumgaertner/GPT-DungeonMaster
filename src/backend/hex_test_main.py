@@ -41,6 +41,7 @@ async def testConnection():
 async def processInput(input_str: str):
     prompt = manager.createPrompt(input_str)
     response = GPT.ChatGPT_conversation(prompt)
+    response = response.replace("DM: ", "")
     manager.registerResponse(response)
     return JSONResponse(content=response, headers=response_headers)
 
