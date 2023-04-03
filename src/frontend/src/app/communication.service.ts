@@ -12,8 +12,10 @@ import { Observable } from 'rxjs';
  */
 @Injectable()
 export class CommunicationService {
+
   constructor(private httpClient: HttpClient) { }
 
   public backend = "http://localhost:8000"; 
-  public hexTestPath = this.backend + "/test/connection"
+  public hexTestPath = this.backend + "/test/connection/"
+  public hexInputPath = this.backend + "/input/"
 }

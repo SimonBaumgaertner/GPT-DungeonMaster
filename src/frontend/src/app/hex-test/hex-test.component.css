@@ -1,0 +1,15 @@
+
+
+.text-field{
+    width: 50%;
+    height: 150px;
+    border:1px solid black;
+}
+
+.test-connection-button{
+    position: fixed;
+    top: 0;
+    right: 0;
+    color: green;
+}
+body { margin: 0; background-image: url('../../assets/tavern.png'); background-repeat: no-repeat; background-position: center center; background-size: cover; }

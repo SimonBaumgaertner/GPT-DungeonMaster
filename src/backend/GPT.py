@@ -17,6 +17,3 @@ def ChatGPT_conversation(prompt):
     print('Total token consumed: {0}'.format(api_usage['total_tokens']))
     conversation.append({'role': response.choices[0].message.role, 'content': response.choices[0].message.content})
     return conversation[1]["content"]
-
-
-print(ChatGPT_conversation("what's 1+1?"))

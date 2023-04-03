@@ -6,7 +6,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+import GPT
+from DM_manager import DMManger
 
+manager = DMManger()
 app = FastAPI()
 
 # Add CORS middleware
@@ -18,19 +21,28 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app = FastAPI()
+# app = FastAPI()
+
+response_headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST, GET, OPTIONS, DELETE, PUT",
+    "Access-Control-Allow-Headers": "*",
+    "Access-Control-Allow-Credentials": "true",
+}
 
 
-@app.get("/test/connection")
+@app.get("/test/connection/")
 async def testConnection():
     response_data = "Connection with backend established successfully!"
-    response_headers = {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "*",
-        "Access-Control-Allow-Headers": "*",
-        "Access-Control-Allow-Credentials": "true",
-    }
     return JSONResponse(content=response_data, headers=response_headers)
+
+
+@app.get("/input/{input_str}")
+async def processInput(input_str: str):
+    prompt = manager.createPrompt(input_str)
+    response = GPT.ChatGPT_conversation(prompt)
+    manager.registerResponse(response)
+    return JSONResponse(content=response, headers=response_headers)
 
 
 if __name__ == "__main__":

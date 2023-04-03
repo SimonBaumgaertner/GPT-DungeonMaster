@@ -1,0 +1,25 @@
+   <div class="container">
+    <div class="card">
+      <div class="chat-list" #chatListContainer>
+        <ng-container *ngFor="let item of chatMessages">
+          <div class="chat-item"
+               [ngClass]="{'right' : item?.user?.id == human.id, 'left': item?.user?.id != human.id}">
+            <img id="avatar" [src]="item?.user?.profileImageUrl">
+            <p id="message-body">{{item?.message}}</p>
+          </div>
+        </ng-container>
+      </div>
+      <div class="chat-footer">
+
+        <input matInput id="chat-textarea" [(ngModel)]="chatInputMessage" required (keyup.enter)="send()">
+        <button id="send-button" (click)="send()" [disabled]="chatInputMessage === ''">
+          send
+        </button>
+      </div>
+    </div>
+   </div>
+   <div class="caption">
+    <button id="clear-button" (click)="clearConversation()" >
+      clear conversation
+    </button>
+   </div>
