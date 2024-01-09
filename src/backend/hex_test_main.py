@@ -8,8 +8,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import GPT
 from DM_manager import DMManger
+from GPT_manager import GPTManager
+from user_manager import UserManager
 
-manager = DMManger()
+user_manager = UserManager()
+story_manager = DMManger(user_manager)
+gpt_manager = GPTManager()
+
 app = FastAPI()
 
 # Add CORS middleware
@@ -21,8 +26,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# app = FastAPI()
-
 response_headers = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "POST, GET, OPTIONS, DELETE, PUT",
@@ -31,20 +34,60 @@ response_headers = {
 }
 
 
-@app.get("/test/connection/")
+######################## UTILITY FUNCTIONS ########################
+@app.post("/test/connection/")
 async def testConnection():
     response_data = "Connection with backend established successfully!"
     return JSONResponse(content=response_data, headers=response_headers)
 
 
-@app.get("/input/{input_str}")
-async def processInput(input_str: str):
-    prompt = manager.createPrompt(input_str)
+@app.post("/authenticate/")
+async def authenticate(request: Request):
+    body = await request.json()
+    result = user_manager.authenticate(body["username"], body["password"])
+    return JSONResponse(content=result, headers=response_headers)
+
+
+######################## STORY FUNCTIONS ########################
+
+@app.post("/story_input/")
+async def processSTORYInput(request: Request):
+    body = await request.json()
+    username = body["username"]
+    input_str = body["message"]
+    prompt = story_manager.createPrompt(username, input_str)
     response = GPT.ChatGPT_conversation(prompt)
     response = response.replace("DM: ", "")
-    manager.registerResponse(response)
+    story_manager.registerResponse(username, response)
     return JSONResponse(content=response, headers=response_headers)
 
 
+@app.post("/story_clear/")
+async def storyClear(request: Request):
+    body = await request.json()
+    username = body["username"]
+    story_manager.clearStory(username)
+    return JSONResponse(content="Story cleared", headers=response_headers)
+
+
+######################## GPT FUNCTIONS ########################
+
+@app.post("/gpt_input/{input_str}")
+async def processGPTInput(input_str: str):
+    prompt = gpt_manager.createPrompt(input_str)
+    response = GPT.ChatGPT_conversation(prompt)
+    response = response.replace("Answer: ", "")
+    gpt_manager.registerResponse(response)
+    return JSONResponse(content=response, headers=response_headers)
+
+
+@app.post("/gpt_clear/")
+async def GPTclear():
+    gpt_manager.clearGPT()
+    return JSONResponse(content="GPT cleared", headers=response_headers)
+
+
+######################## FILE FUNCTIONS ########################
+
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)

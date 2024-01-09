@@ -1,0 +1,15 @@
+FROM python:3.9
+
+WORKDIR /hexhelper-app
+
+COPY requirements.txt .
+
+RUN pip install -r requirements.txt
+
+COPY ./backend ./backend
+
+CMD ["python", "./backend/hex_test_main.py"]
+
+#  docker build -t python-hexhelper .
+#  docker run -p 8000:8000 -p 4200:4200 python-hexhelper
+

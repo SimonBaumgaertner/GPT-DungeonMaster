@@ -17,5 +17,9 @@ export class CommunicationService {
 
   public backend = "http://localhost:8000"; 
   public hexTestPath = this.backend + "/test/connection/"
-  public hexInputPath = this.backend + "/input/"
+  public storyInputPath = this.backend + "/story_input/"
+  public gptInputPath = this.backend + "/gpt_input/"
+  public authenticatePath = this.backend + "/authenticate/"
+  public gptClearPath = this.backend + "/gpt_clear/"
+  public storyClearPath = this.backend + "/story_clear/"
 }

@@ -19,4 +19,6 @@ def ChatGPT_conversation(prompt):
     return conversation[1]["content"]
 
 
-print(ChatGPT_conversation("what's 1+1?"))
+print(ChatGPT_conversation())
+# call the ChatGPT_conversation() method with a random string
+

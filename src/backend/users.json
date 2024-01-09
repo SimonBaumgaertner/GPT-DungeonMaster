@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "username": "mon",
+      "password": "test"
+    },
+    {
+      "username": "wig",
+      "password": "dsadweasa"
+    },
+    {
+      "username": "lon",
+      "password": "xcdsdasda"
+    },
+    {
+      "username": "olas",
+      "password": "dasdxdgfgffsd"
+    },
+    {
+      "username": "gast",
+      "password": "gast"
+    }
+  ]
+}

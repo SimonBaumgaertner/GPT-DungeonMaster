@@ -14,7 +14,7 @@ RUN npm install
 
 # Set up CMD
 WORKDIR /hexhelper-app/frontend
-EXPOSE 8080
+EXPOSE 4200
 CMD ["bash", "-c", "npm run start & cd ../backend && python hex_test_main.py"]
 
 #  docker build -t python-hexhelper .

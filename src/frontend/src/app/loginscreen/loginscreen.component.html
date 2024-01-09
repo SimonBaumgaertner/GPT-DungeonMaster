@@ -1,0 +1,15 @@
+<div class="login-container">
+    <h1>Welcome friend!</h1>
+    <p>Please log in to continue.</p>
+    <form class="login-form" (ngSubmit)="authenticate()">
+      <mat-form-field>
+        <mat-label>Username</mat-label>
+        <input matInput type="username" name="username" [(ngModel)]="username" required>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput type="password" name="password" [(ngModel)]="password" required>
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit">Login</button>
+    </form>
+  </div>

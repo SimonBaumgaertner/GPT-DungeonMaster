@@ -7,16 +7,24 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HexTestComponent } from './hex-test/hex-test.component';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import {MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
-import { ChatComponent } from './chat/chat.component';
+import { StorychatComponent } from './storychat/storychat.component';
+import { TabComponent } from './tab/tab.component';
+import { GptchatComponent } from './gptchat/gptchat.component';
+import { LoginscreenComponent } from './loginscreen/loginscreen.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HexTestComponent,
-    ChatComponent
+    StorychatComponent,
+    TabComponent,
+    GptchatComponent,
+    LoginscreenComponent
   ],
   imports: [
     FormsModule,
@@ -26,10 +34,15 @@ import { ChatComponent } from './chat/chat.component';
     MatInputModule,
     HttpClientModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    BrowserAnimationsModule,
+    MatTabsModule
 
   ],
-  providers: [],
+  providers: [     {
+    provide: MatDialogRef,
+    useValue: {}
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

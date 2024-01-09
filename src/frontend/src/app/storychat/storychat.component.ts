@@ -1,15 +1,15 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CommunicationService } from '../communication.service';
 
 @Component({
- selector: 'app-chat',
- templateUrl: './chat.component.html',
- styleUrls: ['./chat.component.scss']
+ selector: 'app-storychat',
+ templateUrl: './storychat.component.html',
+ styleUrls: ['./storychat.component.scss']
 })
-export class ChatComponent {
+export class StorychatComponent {
  title = 'chat-ui';
  
  constructor(public dialog: MatDialog,private http: HttpClient, private router: Router,private service: CommunicationService) {}
@@ -18,7 +18,7 @@ export class ChatComponent {
  chatInputMessage: string = "";
  human = {
    id: 1,
-   profileImageUrl: 'assets/mon.png'
+   profileImageUrl: 'assets/user.png'
  }
 
  bot = {
@@ -45,15 +45,19 @@ export class ChatComponent {
      message: this.chatInputMessage,
      user: this.human
    });
-    this.http.get(this.service.hexInputPath + this.chatInputMessage).subscribe(result => {
-      this.chatMessages.push({
-        message: result.toString(),
-        user: this.bot
-      });
-    });
-    this.chatInputMessage = ""
+   const headers = new HttpHeaders().set('Content-Type', 'application/json');
+   const body = { 'username':  localStorage.getItem('loggedInUser'), 'message': this.chatInputMessage};
+   this.http.post<any>(this.service.storyInputPath, JSON.stringify(body), { headers })
+     .subscribe(result => {
+     this.chatMessages = [];
+     this.chatMessages.push({
+       message: result.toString(),
+       user: this.bot
+   });
+ });
+ this.chatInputMessage = ""
 
-   this.scrollToBottom()
+  this.scrollToBottom()
  }
 
  scrollToBottom() {
@@ -68,6 +72,16 @@ export class ChatComponent {
  }
 
  clearConversation() {
-    this.chatMessages = [];
+  const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const body = { 'username':  localStorage.getItem('loggedInUser')};
+    this.http.post<any>(this.service.authenticatePath, JSON.stringify(body), { headers })
+      .subscribe(result => {
+      this.chatMessages = [];
+      this.chatMessages.push({
+        message: result.toString(),
+        user: this.bot
+    });
+  });
+  this.chatInputMessage = ""
  }
 }
